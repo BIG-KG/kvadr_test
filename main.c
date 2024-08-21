@@ -14,23 +14,23 @@ enum num_of_solu {
 };
 
 
-struct test{
-            double a;
-            double b;
-            double c;
-            double ans1;
-            double ans2;
-            double r_ans1;
-            double r_ans2;
-            int num_of_sol;
-            int r_num_of_sol;
+struct equ{
+    double a;
+    double b;
+    double c;
+    //double ans1;
+    //double ans2;
+    double r_ans1;
+    double r_ans2;
+    //int num_of_sol;
+    int r_num_of_sol;
+};
 
-    };
 
 
 int main(){
 
-    struct test tests[2];
+    struct equ tests[2];
 
     tests->a = 1;
     tests->b = -11;
@@ -56,26 +56,30 @@ int main(){
 }
 
 // решает ур-ние
-int sol_squrt(struct test *curr_equ){
+int sol_squrt(struct equ *curr_equ, double *otv1, double *otv2){
     assert(curr_equ != NULL);
     double a = curr_equ->a, b = curr_equ->b, c = curr_equ->c;
-    double *otv1 = &curr_equ->ans1, *otv2 = &curr_equ->ans2;
     *otv1 = NAN;
     *otv2 = NAN;
     double D = 0;
-    if(!compar_double(a)){
-        if(!compar_double(b)){
+    if(!compar_double(a))
+    {
+        if(!compar_double(b))
+        {
             if(!compar_double(c))
                 return INFs;
             else
                 return ZEROs;
         }
-        else{
-            if(!compar_double(c)){
+        else
+        {
+            if(!compar_double(c))
+            {
                 *otv1 = 0;
                 return ONEs;
-                }
-            else{
+            }
+            else
+            {
                 *otv1 = - c/b;
                 return ONEs;
             }
@@ -149,6 +153,9 @@ void enter_coeff(double *a, double *b, double *c){
 
 //возвращает ответы в зависимости от кол-ва ответов
 void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
+    assert(isfinite(number_of_sol));
+    assert(isfinite(ans1));
+    assert(isfinite(ans2));
     switch(number_of_sol)
         {
         case (ZEROs):
@@ -170,29 +177,32 @@ void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
 
 // сравнение величин doube  с 0
 int compar_double(double num){
+    assert(isfinite(num));
     return (fabs(num) > E);
 }
 
 // тест
-void do_test(struct test *curr_test){
+void do_test(struct equ *curr_test){
+    assert(curr_test != NULL);
+    double ans1 = NAN, ans2 = NAN;
+    int num_of_sol = -10;
 
-
-    curr_test->num_of_sol = sol_squrt (curr_test);
+    num_of_sol = sol_squrt (curr_test, &ans1, &ans2);
 
     char flag = 1;
 
     //случай с 2мя отетами
     if(curr_test->r_num_of_sol == 2 &&
-        !(curr_test->num_of_sol == curr_test->r_num_of_sol &&
-        curr_test->ans1 == curr_test->r_ans1 &&
-        curr_test->ans2 == curr_test->r_ans2)){
+        !(num_of_sol == curr_test->r_num_of_sol &&
+        ans1 == curr_test->r_ans1 &&
+        ans2 == curr_test->r_ans2)){
 
         flag = 0;
         }
 
     //случай с 1 ответом
-    else if((curr_test->r_num_of_sol == 1) && !(curr_test->num_of_sol == curr_test->r_num_of_sol &&
-        curr_test->ans1 == curr_test->r_ans1 )){
+    else if((curr_test->r_num_of_sol == 1) && !(num_of_sol == curr_test->r_num_of_sol &&
+        ans1 == curr_test->r_ans1 )){
 
         flag = 0;
 
@@ -201,7 +211,7 @@ void do_test(struct test *curr_test){
 
     // случай с 0 ответов
     else if((curr_test->r_num_of_sol == 0 || curr_test->r_num_of_sol == -1) &&
-     (curr_test->num_of_sol == curr_test->r_num_of_sol)){
+     (num_of_sol == curr_test->r_num_of_sol)){
 
         flag = 0;
         }
@@ -210,17 +220,17 @@ void do_test(struct test *curr_test){
     if (flag == 0){
     printf("ERROR \n\n\n");
         printf("right number of sol = %d "
-               " given number of sol = %d\n", curr_test->r_num_of_sol, curr_test->num_of_sol);
+               " given number of sol = %d\n", curr_test->r_num_of_sol, num_of_sol);
 
     if(isfinite(curr_test->r_ans1)){
         printf("right ans1 = %lf", curr_test->r_ans1);}
-    if(isfinite(curr_test->ans1)){
-        printf("  given ans1 = %lf\n", curr_test->ans1);}
+    if(isfinite(ans1)){
+        printf("  given ans1 = %lf\n",ans1);}
 
     if(isfinite(curr_test->r_ans2)){
         printf("right ans2 = %lf", curr_test->r_ans2);}
-    if(isfinite(curr_test->ans2)){
-        printf("  given ans2 = %lf\n", curr_test->ans2);}
+    if(isfinite(ans2)){
+        printf("  given ans2 = %lf\n", ans2);}
     }
 
     else{

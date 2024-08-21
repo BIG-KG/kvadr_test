@@ -21,7 +21,7 @@
 
 */
 
-int sol_squrt(struct test *curr_equ);
+int sol_squrt(struct equ *curr_equ, double *otv1, double *otv2);
 
 
 /**@brief reads 3 numbers(a, b, c) from struct test
@@ -49,7 +49,7 @@ int compar_double(double num);
 /**@brief testing
 
 **/
-void do_test(struct test *curr_test);
+void do_test(struct equ *curr_test);
 
 
 
