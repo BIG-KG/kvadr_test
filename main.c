@@ -14,8 +14,7 @@ enum {
 };
 
 
-struct test
-    {
+struct test{
             double a;
             double b;
             double c;
@@ -31,7 +30,7 @@ struct test
 
 int main(){
 
-    struct test tests[1];
+    struct test tests[2];
 
     tests->a = 1;
     tests->b = -11;
@@ -40,19 +39,19 @@ int main(){
     tests->r_ans2 = 6;
     tests->r_num_of_sol = 2;
 
-    char t = do_test(tests);
-
-    printf("%d", t);
-
-
-
-
-
+    (tests + 1)->a = 1;
+    (tests + 1)->b = -11;
+    (tests + 1)->c = 30;
+    (tests + 1)->r_ans1 =6;
+    (tests + 1)->r_ans2 = 6;
+    (tests + 1)->r_num_of_sol = 2;
 
 
+    for(int i = 0; i < 2; i++){
+        char t = do_test(tests + i);
+        //printf("%d\n", t);
 
-
-
+        }
 
 }
 
@@ -157,14 +156,26 @@ char do_test(struct test *curr_test){
     curr_test->num_of_sol = sol_squrt (curr_test->a, curr_test->b, curr_test->c,
     &curr_test->ans1, &curr_test->ans2);
 
+
+
     if(curr_test->num_of_sol == curr_test->r_num_of_sol &&
         curr_test->ans1 == curr_test->r_ans1 &&
         curr_test->ans2 == curr_test->r_ans2){
+
+
+        printf("exped: x1 = %6lg, x2 = %6lg number of solutions = %6d\n",
+        curr_test->r_ans1, curr_test->r_ans2, curr_test->r_num_of_sol);
+        printf("gived: x1 = %6lg, x2 = %6lg number of solutions = %6d\n\n",
+               curr_test->ans1,   curr_test->ans2,   curr_test->num_of_sol);
         return 1;
 
        }
+
     else{
-        printf("phignia");
+        printf("exped: x1 = %6lf, x2 = %6lf number of colutions = %6d\n"
+               "gived: x1 = %6lf, x2 = %6lf number of colutions = %6d\n\n",
+               curr_test->r_ans1, curr_test->r_ans1, curr_test->r_num_of_sol,
+               curr_test->ans1,   curr_test->ans1,   curr_test->num_of_sol);
         return 0;
     }
 
