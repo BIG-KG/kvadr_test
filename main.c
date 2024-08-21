@@ -6,8 +6,8 @@
 
 #define min(a,b) (a) < (b) ? (a) : (b)
 
-enum {
-  ZEROs = 0,   //?
+enum num_of_solu {
+  ZEROs = 0,
   ONEs = 1,
   TWOs = 2,
   INFs = -1,
@@ -35,57 +35,73 @@ int main(){
     tests->a = 1;
     tests->b = -11;
     tests->c = 30;
-    tests->r_ans1 = 5;
+    tests->r_ans1 = 5;   //e,hfnm pyfxtybz
     tests->r_ans2 = 6;
     tests->r_num_of_sol = 2;
 
     (tests + 1)->a = 1;
     (tests + 1)->b = 4;
-    (tests + 1)->c = 5;
+    (tests + 1)->c = 4;
     (tests + 1)->r_ans1 =2;
     (tests + 1)->r_ans2 = NAN;
     (tests + 1)->r_num_of_sol = 0;
 
 
     for(int i = 0; i < 2; i++){
-        char t = do_test(tests + i);
-        //printf("%d\n", t);
+        do_test(tests + i);
+
 
         }
 
 }
 
-int sol_squrt(const double a, const double b, const double c, double *otv1, double *otv2){
+// решает ур-ние
+int sol_squrt(struct test *curr_equ){
+    assert(curr_equ != NULL);
+    double a = curr_equ->a, b = curr_equ->b, c = curr_equ->c;
+    double *otv1 = &curr_equ->ans1, *otv2 = &curr_equ->ans2;
+    *otv1 = NAN;
+    *otv2 = NAN;
     double D = 0;
-
-    if(!srav_doble(a) && srav_doble(b) && srav_doble(c)){   // this is krivo!!!{
-        *otv1 = - c/b;
-        return ONEs;}
-    if(!srav_doble(a) && !srav_doble(b) && !srav_doble(c))   // this is krivo!!!
-        return INFs;
-    if(!srav_doble(a) && srav_doble(b) && srav_doble(c))
-        return ZEROs;
-
+    if(!compar_double(a)){
+        if(!compar_double(b)){
+            if(!compar_double(c))
+                return INFs;
+            else
+                return ZEROs;
+        }
+        else{
+            if(!compar_double(c)){
+                *otv1 = 0;
+                return ONEs;
+                }
+            else{
+                *otv1 = - c/b;
+                return ONEs;
+            }
+        }
+    }
 
     D = (b * b) - (4 * a * c);
 
-    if (D < 0)
-        return ZEROs;
-    if (!srav_doble(D) )
+
+    if (!compar_double(D) )
     {
         *otv1 = (-b) / (2 * a);
         return ONEs;
     }
-    else
-    {
-        D = sqrt(D);
-        *otv1 = (-b - sqrt(D)) / (2 * a);
-        *otv2 = (-b + sqrt(D)) / (2 * a);
-        return TWOs;
-    }
+    if (D < 0)
+        return ZEROs;
+
+
+    D = sqrt(D);
+    *otv1 = (-b - sqrt(D)) / (2 * a);
+    *otv2 = (-b + sqrt(D)) / (2 * a);
+    return TWOs;
+
 }
 
-
+// вписывает коэф в a b c
 void enter_coeff(double *a, double *b, double *c){
     assert(a && b && c);
     *a = NAN;
@@ -95,21 +111,29 @@ void enter_coeff(double *a, double *b, double *c){
 
     int right_enter = 1;
     int try_count = 11;
+    char drop =0;
     do{
-        printf("a * x**2 + b * x + c = 0\n");
-        printf("\nenter a = ");
-        right_enter = min(scanf("%lf", a), right_enter);
-
-        printf("\nenter b = ");
-        right_enter = min(scanf("%lf", b), right_enter);
-
-        printf("\nenter c = ");
-        right_enter = min(scanf("%lf", c), right_enter);
-
         if (right_enter == 0){
             printf("\n\nERROR: entered wrong value, try again.\n\n");
-            scanf("%*s");
+            while((drop = getchar()) != '\n' && drop != EOF)
+            ;
         }
+
+        printf("a * x**2 + b * x + c = 0\n");
+        printf("\nenter a = ");
+        if(scanf("%lf%*c", a) == 0){
+            right_enter = 0;
+            continue;}
+
+        printf("\nenter b = ");
+        if(scanf("%lf%*c", b) == 0){
+            right_enter = 0;
+            continue;}
+
+        printf("\nenter c = ");
+        if(scanf("%lf%*с", c) == 0){
+            right_enter = 0;
+            continue;}
 
        try_count--;
 
@@ -123,7 +147,7 @@ void enter_coeff(double *a, double *b, double *c){
 
 }
 
-
+//возвращает ответы в зависимости от кол-ва ответов
 void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
     switch(number_of_sol)
         {
@@ -144,95 +168,65 @@ void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
         }
 }
 
-
-int srav_doble(double num){
-    if (fabs(num) > E)
-        return 1;
-    else
-        return 0;
+// сравнение величин doube  с 0
+int compar_double(double num){
+    return (fabs(num) > E);
 }
 
-char do_test(struct test *curr_test){
-    curr_test->num_of_sol = sol_squrt (curr_test->a, curr_test->b, curr_test->c,
-    &curr_test->ans1, &curr_test->ans2);
+// тест
+void do_test(struct test *curr_test){
+
+
+    curr_test->num_of_sol = sol_squrt (curr_test);
+
+    char flag = 1;
 
     //случай с 2мя отетами
-    if(curr_test->r_num_of_sol == 2){
-    //прошёл тест
-        if(curr_test->num_of_sol == curr_test->r_num_of_sol &&
-            curr_test->ans1 == curr_test->r_ans1 &&
-            curr_test->ans2 == curr_test->r_ans2){
+    if(curr_test->r_num_of_sol == 2 &&
+        !(curr_test->num_of_sol == curr_test->r_num_of_sol &&
+        curr_test->ans1 == curr_test->r_ans1 &&
+        curr_test->ans2 == curr_test->r_ans2)){
 
-            printf("right anwer\n");
-            printf("exped: x1 = %-6lg, x2 = %-6lg number of solutions = %-6d\n",
-            curr_test->r_ans1, curr_test->r_ans2, curr_test->r_num_of_sol);
-            printf("gived: x1 = %-6lg, x2 = %-6lg number of solutions = %-6d\n\n",
-                    curr_test->ans1,   curr_test->ans2,   curr_test->num_of_sol);
-            return 1;
-
-    }
-    //не прошёл тест
-        else{
-
-            printf("wrong anwer\n");
-            printf("exped: x1 = %-6lf, x2 = %-6lf number of colutions = %-6d\n"
-                   "gived: x1 = %-6lf, x2 = %-6lf number of colutions = %-6d\n\n",
-                    curr_test->r_ans1, curr_test->r_ans1, curr_test->r_num_of_sol,
-                    curr_test->ans1,   curr_test->ans1,   curr_test->num_of_sol);
-            return 0;
-            }
+        flag = 0;
         }
 
     //случай с 1 ответом
-    else if(curr_test->r_num_of_sol == 1){
-        //прошёл тест
-        if(curr_test->num_of_sol == curr_test->r_num_of_sol &&
-            curr_test->ans1 == curr_test->r_ans1 ){
+    else if((curr_test->r_num_of_sol == 1) && !(curr_test->num_of_sol == curr_test->r_num_of_sol &&
+        curr_test->ans1 == curr_test->r_ans1 )){
 
-            printf("right anwer\n");
-            printf("exped: x1 = %-6lg number of solutions = %-6d\n",
-                curr_test->r_ans1, curr_test->r_num_of_sol);
-            printf("gived: x1 = %-6lg number of solutions = %6-d\n\n",
-                curr_test->ans1,   curr_test->num_of_sol);
-            return 1;
+        flag = 0;
 
-            }
-        //не прошёл тест
-        else{
-
-            printf("wrong anwer\n");
-            printf("exped: x1 = %-6lf number of colutions = %-6d\n"
-                   "gived: x1 = %-6lf number of colutions = %-6d\n\n",
-                curr_test->r_ans1, curr_test->r_num_of_sol,
-                curr_test->ans1,   curr_test->num_of_sol);
-            return 0;
-            }
         }
+
 
     // случай с 0 ответов
-    else if(curr_test->r_num_of_sol == 0 || curr_test->r_num_of_sol == -1){
+    else if((curr_test->r_num_of_sol == 0 || curr_test->r_num_of_sol == -1) &&
+     (curr_test->num_of_sol == curr_test->r_num_of_sol)){
 
-
-        //прошёл тест
-        if(curr_test->num_of_sol == curr_test->r_num_of_sol){
-
-            printf("right anwer\n");
-            printf("exped: number of solutions = %-6d\n",
-                curr_test->r_num_of_sol);
-            printf("gived: number of solutions = %-6d\n\n",
-                curr_test->num_of_sol);
-            return 1;
-
-            }
-        //не прошёл тест
-        else{
-
-            printf("wrong anwer\n");
-            printf("exped: number of colutions = %-6d\n"
-                   "gived: number of colutions = %-6d\n\n",
-                    curr_test->r_num_of_sol, curr_test->num_of_sol);
-            return 0;
-            }
+        flag = 0;
         }
 
+
+    if (flag == 0){
+    printf("ERROR \n\n\n");
+        printf("right number of sol = %d "
+               " given number of sol = %d\n", curr_test->r_num_of_sol, curr_test->num_of_sol);
+
+    if(isfinite(curr_test->r_ans1)){
+        printf("right ans1 = %lf", curr_test->r_ans1);}
+    if(isfinite(curr_test->ans1)){
+        printf("  given ans1 = %lf\n", curr_test->ans1);}
+
+    if(isfinite(curr_test->r_ans2)){
+        printf("right ans2 = %lf", curr_test->r_ans2);}
+    if(isfinite(curr_test->ans2)){
+        printf("  given ans2 = %lf\n", curr_test->ans2);}
+    }
+
+    else{
+        printf("test done");
+    }
+                        // добавить цвета
 }
+
+
