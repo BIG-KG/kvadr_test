@@ -157,6 +157,30 @@ char do_test(struct test *curr_test){
     &curr_test->ans1, &curr_test->ans2);
 
 
+    if(curr_test->r_num_of_sol == 2){
+    if(curr_test->num_of_sol == curr_test->r_num_of_sol &&
+        curr_test->ans1 == curr_test->r_ans1 &&
+        curr_test->ans2 == curr_test->r_ans2){
+
+
+        printf("exped: x1 = %6lg, x2 = %6lg number of solutions = %6d\n",
+        curr_test->r_ans1, curr_test->r_ans2, curr_test->r_num_of_sol);
+        printf("gived: x1 = %6lg, x2 = %6lg number of solutions = %6d\n\n",
+               curr_test->ans1,   curr_test->ans2,   curr_test->num_of_sol);
+        return 1;
+
+    }
+
+    else{
+        printf("exped: x1 = %6lf, x2 = %6lf number of colutions = %6d\n"
+               "gived: x1 = %6lf, x2 = %6lf number of colutions = %6d\n\n",
+               curr_test->r_ans1, curr_test->r_ans1, curr_test->r_num_of_sol,
+               curr_test->ans1,   curr_test->ans1,   curr_test->num_of_sol);
+        return 0;
+    }
+    }
+
+    else if(curr_test->r_num_of_sol == 1){
 
     if(curr_test->num_of_sol == curr_test->r_num_of_sol &&
         curr_test->ans1 == curr_test->r_ans1 &&
@@ -178,5 +202,10 @@ char do_test(struct test *curr_test){
                curr_test->ans1,   curr_test->ans1,   curr_test->num_of_sol);
         return 0;
     }
+
+
+
+    }
+
 
 }
