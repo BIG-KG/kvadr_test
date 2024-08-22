@@ -35,7 +35,10 @@ struct equ{
 
 */
 
-int sol_squrt(struct equ_coeff, double *, double *);
+int sol_equ(struct equ_coeff, double *, double *);
+int solve_sqrt(double, double, double, double *, double*);
+int solve_linear(double, double, double *);
+
 int check_r_int();
 
 /**@brief reads 3 numbers(a, b, c) from struct test
@@ -63,7 +66,7 @@ int compar_double_with_zero(double num);
 int ct_double(double, double);
 /**@brief testing
 
+
 **/
 void do_test(struct equ *curr_test, int);
-
 

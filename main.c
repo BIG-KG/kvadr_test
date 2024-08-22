@@ -50,7 +50,7 @@ int main(){
             enter_coeff(&(curr_equl.in_coeff));
 
             double ans1 = 0, ans2 = 0;
-            int num_ans = sol_squrt(curr_equl.in_coeff, &ans1, &ans2);
+            int num_ans = sol_equ(curr_equl.in_coeff, &ans1, &ans2);
             print_ans(num_ans, ans1, ans2);
             }
         test_or_sol = check_r_int();
@@ -59,51 +59,16 @@ int main(){
       return 0;
 }
 
-int sol_squrt(struct equ_coeff curr_equ, double *otv1, double *otv2){
+int sol_equ(struct equ_coeff curr_equ, double *otv1, double *otv2){
     double a = curr_equ.a, b = curr_equ.b, c = curr_equ.c;
     *otv1 = NAN;
     *otv2 = NAN;
-    double D = 0;
     if(!compar_double_with_zero(a))
     {
-        if(!compar_double_with_zero(b))
-        {
-            if(!compar_double_with_zero(c))
-                return INFs;
-            else
-                return ZEROs;
-        }
-        else
-        {
-            if(!compar_double_with_zero(c))
-            {
-                *otv1 = 0;
-                return ONEs;
-            }
-            else
-            {
-                *otv1 = - c/b;
-                return ONEs;
-            }
-        }
+        return solve_linear(b, c, otv1);
     }
 
-    D = (b * b) - (4 * a * c);
-
-
-    if (!compar_double_with_zero(D) )
-    {
-        *otv1 = (-b) / (2 * a);
-        return ONEs;
-    }
-    if (D < 0)
-        return ZEROs;
-
-
-    D = sqrt(D);
-    *otv1 = (-b - D) / (2 * a);
-    *otv2 = (-b + D) / (2 * a);
-    return TWOs;
+    return solve_sqrt(a, b, c, otv1, otv2);
 
 }
 
@@ -199,7 +164,7 @@ void do_test(struct equ *curr_test, int n){
     int r_num_of_sol = (curr_test->in_ans).r_num_of_sol;
 
     double ans1 = NAN, ans2 = NAN;
-    int num_of_sol = sol_squrt(curr_test->in_coeff, &ans1, &ans2);
+    int num_of_sol = sol_equ(curr_test->in_coeff, &ans1, &ans2);
 
     char flag = 1;
     if( r_num_of_sol == 2                                                 &&
@@ -253,6 +218,41 @@ void do_test(struct equ *curr_test, int n){
     }
 }
 
+
+
+int solve_linear(double b, double c, double *otv){
+if(!compar_double_with_zero(b))
+        {
+            if(!compar_double_with_zero(c))
+                return INFs;
+            else
+                return ZEROs;
+        }
+        else
+        {
+            *otv = - c/b;
+            return ONEs;
+        }
+}
+
+int solve_sqrt(double a, double b, double c, double *otv1, double *otv2){
+    double D = 0;
+    D = (b * b) - (4 * a * c);
+
+    if (!compar_double_with_zero(D) )
+    {
+        *otv1 = (-b) / (2 * a);
+        return ONEs;
+    }
+    if (D < 0)
+        return ZEROs;
+
+
+    D = sqrt(D);
+    *otv1 = (-b - D) / (2 * a);
+    *otv2 = (-b + D) / (2 * a);
+    return TWOs;
+}
 
 int check_r_int(){
     int right_enter = 1, try_counter = 0;
