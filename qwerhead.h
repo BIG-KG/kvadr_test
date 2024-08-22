@@ -1,9 +1,14 @@
 //! @file
-//! head файл объ€вление дл€ квадратных уравнений
 
 
-#ifndef QWERHEAD_H_INCLUDED
-#define QWERHEAD_H_INCLUDED
+struct equ{
+    double a, b, c, r_ans1, r_ans2;
+    int r_num_of_sol;
+
+
+};
+
+
 
 /**
 @brief solve a * x**2 + b * x + c
@@ -21,8 +26,8 @@
 
 */
 
-int sol_squrt(struct equ *curr_equ, double *otv1, double *otv2);
-
+int sol_squrt(struct equ curr_equ, double *otv1, double *otv2);
+double check_right_enter();
 
 /**@brief reads 3 numbers(a, b, c) from struct test
 
@@ -31,7 +36,7 @@ int sol_squrt(struct equ *curr_equ, double *otv1, double *otv2);
 @note if entered wrong value give 10 attemptions
       if steel wrong, gives an error
 */
-void enter_coeff(double *a, double *b, double *c);
+void enter_coeff(struct equ *curr_equl);
 
 /**@brief print ansvers  depending ofnumber of ans
 
@@ -46,11 +51,10 @@ void return_ans(const int number_of_sol, const double ans1, const double ans2);
 const double E = 1e-12;
 
 int compar_double(double num);
+int ct_double(double, double);
 /**@brief testing
 
 **/
-void do_test(struct equ *curr_test);
+void do_test(struct equ *curr_test, int);
 
 
-
-#endif // QWERHEAD_H_INCLUDED
