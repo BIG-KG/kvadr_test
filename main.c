@@ -28,14 +28,14 @@ int main(){
     const int num_of_tests_main = 3;
     int test_or_sol = 0;
     printf("Enter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
-    test_or_sol = check_right_enter();
+    test_or_sol = check_r_int();
 
     while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){
 
         if(test_or_sol == DO_TESTS){
             int run_test = 0;
             struct equ tests[num_of_tests_main] = {
-            1, -11,  30, 5,   6, 2,
+            1, -11,  30, 6,   6, 2,
             1,   4,   4, 2, NAN, 0,                     //hfpltkbnm yf c
             1,   1.23,   0.297,   -0.9 , -0.33, 2};
 
@@ -44,20 +44,22 @@ int main(){
                 do_test(tests + i, i + 1);
                 }
         }
+
         else if(test_or_sol == SOLVING){
             struct equ curr_equl = {};
-            enter_coeff(&curr_equl);
+            enter_coeff(&(curr_equl.in_coeff));
 
             double ans1 = 0, ans2 = 0;
-            int num_ans = sol_squrt(curr_equl, &ans1, &ans2);
+            int num_ans = sol_squrt(curr_equl.in_coeff, &ans1, &ans2);
             print_ans(num_ans, ans1, ans2);
             }
-        scanf("%d", &test_or_sol);
+        test_or_sol = check_r_int();
         }
+
       return 0;
 }
 
-int sol_squrt(struct equ curr_equ, double *otv1, double *otv2){
+int sol_squrt(struct equ_coeff curr_equ, double *otv1, double *otv2){
     double a = curr_equ.a, b = curr_equ.b, c = curr_equ.c;
     *otv1 = NAN;
     *otv2 = NAN;
@@ -105,10 +107,11 @@ int sol_squrt(struct equ curr_equ, double *otv1, double *otv2){
 
 }
 
-void enter_coeff(struct equ *curr_equl){
+void enter_coeff(struct equ_coeff *curr_equl){
     assert(curr_equl);
 
-    double *a = &(curr_equl->a),*b = &(curr_equl->b), *c = &(curr_equl->c);
+    double *a = &(curr_equl->a),*b = &(curr_equl->b),
+           *c = &(curr_equl->c);
 
     *a = NAN;
     *b = NAN;
@@ -190,29 +193,34 @@ int ct_double(double num1, double num2){
 
 void do_test(struct equ *curr_test, int n){
     assert(curr_test != NULL);
+
+    double r_ans1 = (curr_test->in_ans).r_ans1;
+    double r_ans2 = (curr_test->in_ans).r_ans2;
+    int r_num_of_sol = (curr_test->in_ans).r_num_of_sol;
+
     double ans1 = NAN, ans2 = NAN;
-    int num_of_sol = sol_squrt(*curr_test, &ans1, &ans2);
+    int num_of_sol = sol_squrt(curr_test->in_coeff, &ans1, &ans2);
 
     char flag = 1;
-    if( curr_test->r_num_of_sol == 2                                                 &&
-        !(num_of_sol == curr_test->r_num_of_sol  &&
-        (ct_double(ans1, curr_test->r_ans1)&& ct_double(ans2, curr_test->r_ans2))
+    if( r_num_of_sol == 2                                                 &&
+        !(num_of_sol == r_num_of_sol  &&
+        (ct_double(ans1, r_ans1)&& ct_double(ans2, r_ans2))
           ))
         {
 
         flag = 0;
         }
 
-    else if((curr_test->r_num_of_sol == 1)                                            &&
-          !(num_of_sol == curr_test->r_num_of_sol && ct_double(ans1, curr_test->r_ans1) )){
+    else if((r_num_of_sol == 1)                                            &&
+          !(num_of_sol == r_num_of_sol && ct_double(ans1, r_ans1) )){
 
         flag = 0;
 
         }
 
 
-    else if((curr_test->r_num_of_sol == 0 || curr_test->r_num_of_sol == -1) &&
-            (num_of_sol == curr_test->r_num_of_sol)){
+    else if((r_num_of_sol == 0 || r_num_of_sol == -1) &&
+            (num_of_sol == r_num_of_sol)){
 
         flag = 0;
         }
@@ -223,15 +231,15 @@ void do_test(struct equ *curr_test, int n){
         SetConsoleTextAttribute(h, 0x04);
         printf("ERROR test %d failed\n\n\n", n);
         printf("right number of sol = %d "
-               " given number of sol = %d\n", curr_test->r_num_of_sol, num_of_sol);
+               " given number of sol = %d\n", r_num_of_sol, num_of_sol);
 
-        if(isfinite(curr_test->r_ans1)){
-            printf("right ans1 = %lf", curr_test->r_ans1);}
+        if(isfinite(r_ans1)){
+            printf("right ans1 = %lf", r_ans1);}
         if(isfinite(ans1)){
             printf("  given ans1 = %lf\n",ans1);}
 
-        if(isfinite(curr_test->r_ans2)){
-            printf("right ans2 = %lf", curr_test->r_ans2);}
+        if(isfinite(r_ans2)){
+            printf("right ans2 = %lf", r_ans2);}
 
         if(isfinite(ans2)){
             printf("  given ans2 = %lf\n", ans2);}
@@ -246,7 +254,7 @@ void do_test(struct equ *curr_test, int n){
 }
 
 
-int check_right_enter(){
+int check_r_int(){
     int right_enter = 1, try_counter = 0;
     int output = INT_NAN;
     do{

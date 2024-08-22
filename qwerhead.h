@@ -1,11 +1,20 @@
 //! @file
 
 
-struct equ{
-    double a, b, c, r_ans1, r_ans2;
+
+struct equ_coeff{
+    double a, b, c;
+};
+
+struct test_ans{
+    double r_ans1, r_ans2;
     int r_num_of_sol;
+};
 
 
+struct equ{
+    struct equ_coeff in_coeff;
+    struct test_ans in_ans;
 };
          //разделить на две структуры
 
@@ -26,8 +35,8 @@ struct equ{
 
 */
 
-int sol_squrt(struct equ curr_equ, double *otv1, double *otv2);
-int check_right_enter();
+int sol_squrt(struct equ_coeff, double *, double *);
+int check_r_int();
 
 /**@brief reads 3 numbers(a, b, c) from struct test
 
@@ -36,7 +45,7 @@ int check_right_enter();
 @note if entered wrong value give 10 attemptions
       if steel wrong, gives an error
 */
-void enter_coeff(struct equ *curr_equl);
+void enter_coeff(struct equ_coeff *curr_equl);
 
 /**@brief print ansvers  depending ofnumber of ans
 
