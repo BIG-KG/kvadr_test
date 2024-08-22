@@ -7,7 +7,7 @@ struct equ{
 
 
 };
-
+         //разделить на две структуры
 
 
 /**
@@ -27,7 +27,7 @@ struct equ{
 */
 
 int sol_squrt(struct equ curr_equ, double *otv1, double *otv2);
-double check_right_enter();
+int check_right_enter();
 
 /**@brief reads 3 numbers(a, b, c) from struct test
 
@@ -47,10 +47,10 @@ void enter_coeff(struct equ *curr_equl);
 @note if number_of_sol == 1 gives out ans1
 */
 
-void return_ans(const int number_of_sol, const double ans1, const double ans2);
+void print_ans(const int number_of_sol, const double ans1, const double ans2);
 const double E = 1e-12;
 
-int compar_double(double num);
+int compar_double_with_zero(double num);
 int ct_double(double, double);
 /**@brief testing
 

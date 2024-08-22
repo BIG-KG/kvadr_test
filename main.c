@@ -5,7 +5,8 @@
 #include <windows.h>
 #include "qwerhead.h"
 
-
+#define INT_NAN -2147483648
+#define MAX_TRY_COUNT 11
 #define min(a,b) (a) < (b) ? (a) : (b)
 
 enum num_of_solu {
@@ -16,7 +17,7 @@ enum num_of_solu {
 };
 
 
-enum num_of_solushons {
+enum solushon{
     DO_TESTS = 1,
     SOLVING = 2,
 };
@@ -24,33 +25,32 @@ enum num_of_solushons {
 
 
 int main(){
-    const int num_of_tests_main = 3;               // this is krivo!!!
-    double test_or_sol = 0;
+    const int num_of_tests_main = 3;
+    int test_or_sol = 0;
     printf("Enter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
     test_or_sol = check_right_enter();
 
-    while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){ //kto takoe dva?
+    while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){
 
         if(test_or_sol == DO_TESTS){
             int run_test = 0;
             struct equ tests[num_of_tests_main] = {
             1, -11,  30, 5,   6, 2,
-            1,   4,   4, 2, NAN, 0,
+            1,   4,   4, 2, NAN, 0,                     //hfpltkbnm yf c
             1,   1.23,   0.297,   -0.9 , -0.33, 2};
 
 
             for(int i = 0; i < num_of_tests_main; i++){
                 do_test(tests + i, i + 1);
                 }
-            }
-
+        }
         else if(test_or_sol == SOLVING){
-            struct equ curr_equl;    // kill!
+            struct equ curr_equl = {};
             enter_coeff(&curr_equl);
 
-            double ans1, ans2;         // kill!
+            double ans1 = 0, ans2 = 0;
             int num_ans = sol_squrt(curr_equl, &ans1, &ans2);
-            return_ans(num_ans, ans1, ans2);
+            print_ans(num_ans, ans1, ans2);
             }
         scanf("%d", &test_or_sol);
         }
@@ -62,18 +62,18 @@ int sol_squrt(struct equ curr_equ, double *otv1, double *otv2){
     *otv1 = NAN;
     *otv2 = NAN;
     double D = 0;
-    if(!compar_double(a))
+    if(!compar_double_with_zero(a))
     {
-        if(!compar_double(b))
+        if(!compar_double_with_zero(b))
         {
-            if(!compar_double(c))
+            if(!compar_double_with_zero(c))
                 return INFs;
             else
                 return ZEROs;
         }
         else
         {
-            if(!compar_double(c))
+            if(!compar_double_with_zero(c))
             {
                 *otv1 = 0;
                 return ONEs;
@@ -89,7 +89,7 @@ int sol_squrt(struct equ curr_equ, double *otv1, double *otv2){
     D = (b * b) - (4 * a * c);
 
 
-    if (!compar_double(D) )
+    if (!compar_double_with_zero(D) )
     {
         *otv1 = (-b) / (2 * a);
         return ONEs;
@@ -114,10 +114,9 @@ void enter_coeff(struct equ *curr_equl){
     *b = NAN;
     *c = NAN;
 
-
     int right_enter = 1;
     int try_count = 11;
-    char drop =0;
+    int drop =0;
     do{
         if (right_enter == 0){
 
@@ -158,7 +157,7 @@ void enter_coeff(struct equ *curr_equl){
 
 }
 
-void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
+void print_ans(const int number_of_sol, const double ans1, const double ans2 ){
     switch(number_of_sol)
         {
         case (ZEROs):
@@ -178,7 +177,7 @@ void return_ans(const int number_of_sol, const double ans1, const double ans2 ){
         }
 }
 
-int compar_double(double num){
+int compar_double_with_zero(double num){
     assert(isfinite(num));
     return (fabs(num) > E);
 }
@@ -192,9 +191,7 @@ int ct_double(double num1, double num2){
 void do_test(struct equ *curr_test, int n){
     assert(curr_test != NULL);
     double ans1 = NAN, ans2 = NAN;
-    int num_of_sol = -10;
-
-    num_of_sol = sol_squrt(*curr_test, &ans1, &ans2);
+    int num_of_sol = sol_squrt(*curr_test, &ans1, &ans2);
 
     char flag = 1;
     if( curr_test->r_num_of_sol == 2                                                 &&
@@ -220,8 +217,7 @@ void do_test(struct equ *curr_test, int n){
         flag = 0;
         }
 
-    HANDLE h;
-    h = GetStdHandle(STD_OUTPUT_HANDLE);
+    HANDLE h  = GetStdHandle(STD_OUTPUT_HANDLE);
 
     if (flag == 0){
         SetConsoleTextAttribute(h, 0x04);
@@ -250,19 +246,20 @@ void do_test(struct equ *curr_test, int n){
 }
 
 
-double check_right_enter(){
+int check_right_enter(){
     int right_enter = 1, try_counter = 0;
-    double output = NAN;
+    int output = INT_NAN;
     do{
         if (right_enter == 0){
             printf("ERROR try again");
-            for(char drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
+            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
             ;}
-       right_enter = scanf("%lf%*c", &output);
 
-    }while(right_enter == 0 && try_counter < 11);
+       right_enter = scanf("%d%*c", &output);
 
-    assert(isfinite(output));
+    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
+
+    assert(output != INT_NAN);//Â MIAN IFîì
 
     return output;
 
