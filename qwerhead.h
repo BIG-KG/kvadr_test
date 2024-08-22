@@ -69,4 +69,5 @@ int ct_double(double, double);
 
 **/
 void do_test(struct equ *curr_test, int);
+void print_test_result(int flag, double ans1, double ans2, struct test_ans * in_coef, int n, int num_of_sol);
 

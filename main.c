@@ -189,7 +189,14 @@ void do_test(struct equ *curr_test, int n){
 
         flag = 0;
         }
+    print_test_result(flag, ans1, ans2, &(curr_test->in_ans), n, num_of_sol);
 
+}
+
+void print_test_result(int flag, double ans1, double ans2, struct test_ans * in_ans, int n, int num_of_sol){
+    double r_ans1 = in_ans->r_ans1;
+    double r_ans2 = in_ans->r_ans2;
+    double r_num_of_sol = in_ans->r_num_of_sol;
     HANDLE h  = GetStdHandle(STD_OUTPUT_HANDLE);
 
     if (flag == 0){
@@ -216,9 +223,8 @@ void do_test(struct equ *curr_test, int n){
         printf("test %d done\n\n", n);
         SetConsoleTextAttribute(h, 0x07);
     }
+
 }
-
-
 
 int solve_linear(double b, double c, double *otv){
 if(!compar_double_with_zero(b))
@@ -259,7 +265,7 @@ int check_r_int(){
     int output = INT_NAN;
     do{
         if (right_enter == 0){
-            printf("ERROR try again");
+            printf("ERROR try again\n");
             for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
             ;}
 
