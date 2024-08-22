@@ -85,39 +85,14 @@ void enter_coeff(struct equ_coeff *curr_equl){
     int right_enter = 1;
     int try_count = 11;
     int drop =0;
-    do{
-        if (right_enter == 0){
+    printf("a * x**2 + b*x + c = 0\nEnter coefficents\n");
+    char astr[] = "a = ";
+    char bstr[] = "b = ";
+    char cstr[] = "c = ";
 
-            printf("\n\nERROR: entered wrong value, try again.\n\n");
-            while((drop = getchar()) != '\n' && drop != EOF)
-            ;
-        }
-
-        printf("a * x**2 + b * x + c = 0\n");
-        printf("\nenter a = ");
-        if(scanf("%lf%*c", a) == 0){
-            right_enter = 0;
-            continue;}
-
-        printf("\nenter b = ");
-        if(scanf("%lf%*c", b) == 0){
-            right_enter = 0;
-            continue;}
-
-
-        printf("\nenter c = ");
-        if(scanf("%lf%*c", c) == 0){
-            right_enter = 0;
-            continue;
-
-
-            }
-
-
-       try_count--;
-
-
-    }while(right_enter == 0 && try_count >0);
+    *a = enter_one_coeff(astr);
+    *b = enter_one_coeff(bstr);
+    *c = enter_one_coeff(cstr);
 
     assert (isfinite (*a));
     assert (isfinite (*b));
@@ -276,5 +251,33 @@ int check_r_int(){
     assert(output != INT_NAN);//Â MIAN IFîì
 
     return output;
+}
+
+double check_r_double(){
+    int right_enter = 1, try_counter = 0;
+    double output = INT_NAN;
+    do{
+        if (right_enter == 0){
+            printf("ERROR try again\n");
+            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
+            ;}
+
+       right_enter = scanf("%lg%*c", &output);
+
+    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
+
+    assert(output != INT_NAN);//Â MIAN IFîì
+
+    return output;
+}
+
+double enter_one_coeff(char *c){
+    assert(c != NULL);
+
+    while(*c != '\0'){
+        putchar(*c);
+        c++;
+    }
+    return check_r_double();
 
 }

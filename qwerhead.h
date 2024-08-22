@@ -40,6 +40,9 @@ int solve_sqrt(double, double, double, double *, double*);
 int solve_linear(double, double, double *);
 
 int check_r_int();
+double check_r_double();
+
+
 
 /**@brief reads 3 numbers(a, b, c) from struct test
 
@@ -49,6 +52,7 @@ int check_r_int();
       if steel wrong, gives an error
 */
 void enter_coeff(struct equ_coeff *curr_equl);
+double enter_one_coeff(char *c);
 
 /**@brief print ansvers  depending ofnumber of ans
 
