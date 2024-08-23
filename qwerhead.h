@@ -52,7 +52,7 @@ double check_r_double();
       if steel wrong, gives an error
 */
 void enter_coeff(struct equ_coeff *curr_equl);
-double enter_one_coeff(char *c);
+double enter_one_coeff(const char *c);
 
 /**@brief print ansvers  depending ofnumber of ans
 

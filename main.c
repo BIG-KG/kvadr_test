@@ -5,9 +5,8 @@
 #include <windows.h>
 #include "qwerhead.h"
 
-#define INT_NAN -2147483648
+#define INT_NAN -214
 #define MAX_TRY_COUNT 11
-#define min(a,b) (a) < (b) ? (a) : (b)
 
 enum num_of_solu {
   ZEROs = 0,
@@ -27,7 +26,7 @@ enum solushon{
 int main(){
     const int num_of_tests_main = 3;
     int test_or_sol = 0;
-    printf("Enter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
+    printf("HI, its me, Mario!\nEnter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
     test_or_sol = check_r_int();
 
     while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){
@@ -59,46 +58,10 @@ int main(){
       return 0;
 }
 
-int sol_equ(struct equ_coeff curr_equ, double *otv1, double *otv2){
-    double a = curr_equ.a, b = curr_equ.b, c = curr_equ.c;
-    *otv1 = NAN;
-    *otv2 = NAN;
-    if(!compar_double_with_zero(a))
-    {
-        return solve_linear(b, c, otv1);
-    }
 
-    return solve_sqrt(a, b, c, otv1, otv2);
 
-}
 
-void enter_coeff(struct equ_coeff *curr_equl){
-    assert(curr_equl);
 
-    double *a = &(curr_equl->a),*b = &(curr_equl->b),
-           *c = &(curr_equl->c);
-
-    *a = NAN;
-    *b = NAN;
-    *c = NAN;
-
-    int right_enter = 1;
-    int try_count = 11;
-    int drop =0;
-    printf("a * x**2 + b*x + c = 0\nEnter coefficents\n");
-    char astr[] = "a = ";
-    char bstr[] = "b = ";
-    char cstr[] = "c = ";
-
-    *a = enter_one_coeff(astr);
-    *b = enter_one_coeff(bstr);
-    *c = enter_one_coeff(cstr);
-
-    assert (isfinite (*a));
-    assert (isfinite (*b));
-    assert (isfinite (*c));
-
-}
 
 void print_ans(const int number_of_sol, const double ans1, const double ans2 ){
     switch(number_of_sol)
@@ -201,77 +164,12 @@ void print_test_result(int flag, double ans1, double ans2, struct test_ans * in_
 
 }
 
-int solve_linear(double b, double c, double *otv){
-if(!compar_double_with_zero(b))
-        {
-            if(!compar_double_with_zero(c))
-                return INFs;
-            else
-                return ZEROs;
-        }
-        else
-        {
-            *otv = - c/b;
-            return ONEs;
-        }
-}
-
-int solve_sqrt(double a, double b, double c, double *otv1, double *otv2){
-    double D = 0;
-    D = (b * b) - (4 * a * c);
-
-    if (!compar_double_with_zero(D) )
-    {
-        *otv1 = (-b) / (2 * a);
-        return ONEs;
-    }
-    if (D < 0)
-        return ZEROs;
 
 
-    D = sqrt(D);
-    *otv1 = (-b - D) / (2 * a);
-    *otv2 = (-b + D) / (2 * a);
-    return TWOs;
-}
 
-int check_r_int(){
-    int right_enter = 1, try_counter = 0;
-    int output = INT_NAN;
-    do{
-        if (right_enter == 0){
-            printf("ERROR try again\n");
-            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
-            ;}
 
-       right_enter = scanf("%d%*c", &output);
 
-    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
-
-    assert(output != INT_NAN);//Â MIAN IFîì
-
-    return output;
-}
-
-double check_r_double(){
-    int right_enter = 1, try_counter = 0;
-    double output = INT_NAN;
-    do{
-        if (right_enter == 0){
-            printf("ERROR try again\n");
-            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
-            ;}
-
-       right_enter = scanf("%lg%*c", &output);
-
-    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
-
-    assert(output != INT_NAN);//Â MIAN IFîì
-
-    return output;
-}
-
-double enter_one_coeff(char *c){
+double enter_one_coeff(const char *c){
     assert(c != NULL);
 
     while(*c != '\0'){
