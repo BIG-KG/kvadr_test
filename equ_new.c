@@ -5,7 +5,7 @@
 
 
 
-int solve_linear(double b, double c, double *otv){
+int solve_linear(cdouble b, cdouble c, double *otv){
     if(!compar_double_with_zero(b))
             {
                 if(!compar_double_with_zero(c))
@@ -21,7 +21,7 @@ int solve_linear(double b, double c, double *otv){
     }
 
 
-int solve_sqrt(double a, double b, double c, double *otv1, double *otv2){
+int solve_sqrt(cdouble a, cdouble b, cdouble c, double *otv1, double *otv2){
     double D = 0;
     D = (b * b) - (4 * a * c);
 
@@ -41,8 +41,10 @@ int solve_sqrt(double a, double b, double c, double *otv1, double *otv2){
 }
 
 
-int sol_equ(struct equ_coeff curr_equ, double *otv1, double *otv2){
-    double a = curr_equ.a, b = curr_equ.b, c = curr_equ.c;
+int sol_equ(const struct equ_coeff curr_equ, double *otv1, double *otv2){
+    cdouble a = curr_equ.a;
+    cdouble b = curr_equ.b;
+    cdouble c = curr_equ.c;
     *otv1 = NAN;
     *otv2 = NAN;
     if(!compar_double_with_zero(a))

@@ -5,14 +5,14 @@ void enter_coeff(struct equ_coeff *curr_equl){
     assert(curr_equl);
 
     double *a = &(curr_equl->a),*b = &(curr_equl->b),
-           *c = &(curr_equl->c);
+           *c = &(curr_equl->c); // 3 строки
 
     *a = NAN;
     *b = NAN;
     *c = NAN;
 
     int right_enter = 1;
-    int try_count = 11;
+    int try_count = 11; // const
     int drop =0;
     printf("a * x**2 + b*x + c = 0\nEnter coefficents\n");
     *a = enter_one_coeff("a = ");
@@ -30,8 +30,10 @@ int check_r_int(){
     do{
         if (right_enter == 0){
             printf("ERROR try again\n");
+            // нужен другой цикл,
             for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
-            ;}
+            ;
+        }
 
        right_enter = scanf("%d%*c", &output);
 
@@ -49,6 +51,7 @@ double check_r_double(){
     do{
         if (right_enter == 0){
             printf("ERROR try again\n");
+            // в функцию
             for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
             ;}
 

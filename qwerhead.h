@@ -3,11 +3,14 @@
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <windows.h>
 
 #define INT_NAN -214
 #define MAX_TRY_COUNT 11
+
+typedef const double cdouble;
 
 enum num_of_solu {
   ZEROs = 0,
@@ -56,9 +59,9 @@ struct equ{
 
 */
 
-int sol_equ(struct equ_coeff, double *, double *);
-int solve_sqrt(double, double, double, double *, double*);
-int solve_linear(double, double, double *);
+int sol_equ(const struct equ_coeff curr_equ, double *ans1, double *ans2);
+int solve_sqrt(cdouble a, cdouble b, cdouble c, double *ans1, double *ans2);
+int solve_linear(cdouble b, cdouble c, cdouble *ans1);
 
 int check_r_int();
 double check_r_double();
@@ -87,12 +90,14 @@ double enter_one_coeff(const char *c);
 void print_ans(const int number_of_sol, const double ans1, const double ans2);
 const double E = 1e-12;
 
+void do_all_tests();
+
 int compar_double_with_zero(double num);
-int ct_double(double, double);
+int ct_double(double , double); // приписать названия
 /**@brief testing
 
 
 **/
-void do_test(struct equ *curr_test, int);
-void print_test_result(int flag, double ans1, double ans2, struct test_ans * in_coef, int n, int num_of_sol);
+void do_test(const struct equ *curr_test, int);
+void print_test_result(_Bool flag, cdouble ans1, cdouble ans2, const struct test_ans * in_coef, int n, int num_of_sol);
 
