@@ -1,5 +1,26 @@
 //! @file
 
+#include <stdio.h>
+#include <math.h>
+#include <assert.h>
+#include <stdlib.h>
+#include <windows.h>
+
+#define INT_NAN -214
+#define MAX_TRY_COUNT 11
+
+enum num_of_solu {
+  ZEROs = 0,
+  ONEs = 1,
+  TWOs = 2,
+  INFs = -1,
+};
+
+
+enum solushon{
+    DO_TESTS = 1,
+    SOLVING = 2,
+};
 
 
 struct equ_coeff{

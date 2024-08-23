@@ -1,12 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <windows.h>
+
 #include "qwerhead.h"
 
-#define INT_NAN -2147483648
-#define MAX_TRY_COUNT 11
+
 
 
 

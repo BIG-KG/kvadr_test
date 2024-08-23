@@ -1,32 +1,17 @@
-#include <stdio.h>
-#include <math.h>
-#include <assert.h>
-#include <stdlib.h>
-#include <windows.h>
+
 #include "qwerhead.h"
 
-#define INT_NAN -214
-#define MAX_TRY_COUNT 11
-
-enum num_of_solu {
-  ZEROs = 0,
-  ONEs = 1,
-  TWOs = 2,
-  INFs = -1,
-};
 
 
-enum solushon{
-    DO_TESTS = 1,
-    SOLVING = 2,
-};
+
 
 
 
 int main(){
+
     const int num_of_tests_main = 3;
     int test_or_sol = 0;
-    printf("HI, its me, Mario!\nEnter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
+    printf("HI, its me, Mario! with obnowa \nEnter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
     test_or_sol = check_r_int();
 
     while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){
@@ -57,8 +42,6 @@ int main(){
 
       return 0;
 }
-
-
 
 
 

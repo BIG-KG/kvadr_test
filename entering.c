@@ -1,3 +1,6 @@
+#include "qwerhead.h"
+
+
 void enter_coeff(struct equ_coeff *curr_equl){
     assert(curr_equl);
 
@@ -56,3 +59,4 @@ double check_r_double(){
     assert(output != INT_NAN);//Â MIAN IFîì
     return output;
 }
+
