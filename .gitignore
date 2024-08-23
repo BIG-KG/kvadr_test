@@ -4,3 +4,14 @@ main.c.save
 qwer_build_log.html
 main.c.save
 main.c.save
+*.save
+*.cbp
+*.html
+*.o
+*.cbp
+bin/Release/qwer_kvadr.exe
+.vscode/tasks.json
+qwer.cbp
+qwer1.exe
+qwer.cbp
+qwer.cbp
