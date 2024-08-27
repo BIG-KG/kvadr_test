@@ -80,7 +80,7 @@ struct equ{
 @see solve_linear()
 
 */
-int sol_equ( const equ_coeff curr_equ, answers_s *curr_ans);
+int sol_equ( const equ_coeff curr_equ, answers_s * const curr_ans);
 
 /**
 @brief solve a * x**2 + b * x + c = 0
@@ -99,7 +99,7 @@ int sol_equ( const equ_coeff curr_equ, answers_s *curr_ans);
 @note in case 1 sol return answer to ans1
 
 */
-int solve_sqrt(const equ_coeff curr_equ, answers_s *curr_ans);
+int solve_sqrt(const equ_coeff curr_equ, answers_s * const curr_ans);
 
 /**
 @brief solve b * x + c = 0 or special case 0 * x**2 + b * x + c = 0
@@ -114,7 +114,7 @@ int solve_sqrt(const equ_coeff curr_equ, answers_s *curr_ans);
 
 @note in case of infitity sol return -1
 */
-int solve_linear(const equ_coeff curr_equ, answers_s *curr_ans);
+int solve_linear(const equ_coeff curr_equ, answers_s * const curr_ans);
 
 /**
 @brief Check for right entering int number.
@@ -140,7 +140,7 @@ int check_r_int();
 @note Go to ERROR if after 11 attempts nuber still not entered.
 @note  Works only with stdin.
 */
-double check_r_double(const char *printing_string);
+double check_r_double(const char * const printing_string);
 
 
 
@@ -151,7 +151,7 @@ double check_r_double(const char *printing_string);
 @note if entered wrong value give 10 attemptions
       if steel wrong, gives an error
 */
-void enter_coeff(struct equ_coeff *curr_equl);
+void enter_coeff(struct equ_coeff * const curr_equl);
 
 /**@brief Reads and returns double number. Before the introduction, the line located at the pointer C is written.  Use check_r_double.
 
@@ -196,7 +196,7 @@ void do_all_tests();
 
 @see E
 */
-int compar_double_with_zero(double num);
+int compar_double_with_zero(cdouble num);
 
 /**
 @brief compares two double nombers.
@@ -210,7 +210,7 @@ int compar_double_with_zero(double num);
 
 @see E
 */
-int ct_double(double , double);
+int ct_double(cdouble , cdouble);
 
 /**@brief Substitutes parameters passed by (struct equ *)curr_test into solve_equ and compares with answers received from (struct equ *)curr_test.
 	Using sol_equ, print_test_result.
@@ -221,8 +221,8 @@ int ct_double(double , double);
 @see sol_equ() print_test_result()
 
 **/
-void do_test(struct equ *curr_test, const int n);
+void do_test(struct equ * const curr_test, const int n);
 
-void print_test_result(_Bool flag, const equ *curr_test, const int n);
+void print_test_result(_Bool flag, const equ * const curr_test, const int n);
 
 #endif

@@ -54,25 +54,24 @@ void print_ans(const answers_s curr_ans){
 		
 }
 
-int compar_double_with_zero(double num){
+int compar_double_with_zero(cdouble num){
 	
     assert(isfinite(num));
     return (fabs(num) > E);
 	
 }
 
-int ct_double(double num1, double num2){
+int ct_double(cdouble num1, cdouble num2){
 	
     assert(isfinite(num1) && isfinite(num2));
     return (fabs(num1 - num2) < E);
 	
 }
 
-void do_test(struct equ *curr_test, const int n){	
-	if (curr_test == NULL){
-		printf("ERROR pointer curr_test == NULL, in funk do_test");
-		assert(curr_test);
-	}
+void do_test(struct equ * const curr_test, const int n){
+	
+	assert(curr_test);
+	
     cdouble r_ans1 = (curr_test->in_ans).r_ans1;
     cdouble r_ans2 = (curr_test->in_ans).r_ans2;
     const int r_num_of_sol = (curr_test->in_ans).r_num_of_sol;
@@ -107,12 +106,9 @@ void do_test(struct equ *curr_test, const int n){
 	
 }
 
-void print_test_result(_Bool flag, const equ *curr_test, const int n){
+void print_test_result(_Bool flag, const equ * const curr_test, const int n){
     
-	if (curr_test == NULL){
-		printf("ERROR pointer curr_test == NULL, in funk print_test_result");
-		assert(curr_test);
-	}
+	assert(curr_test);
 	
     HANDLE h  = GetStdHandle(STD_OUTPUT_HANDLE);
 
@@ -163,10 +159,7 @@ void do_all_tests(){
 
 void print_double_num(const char* a, cdouble f, int end){
 	
-	if (a == NULL){
-		printf("ERROR pointer a == NULL, in funk print_double_num");
-		assert(a);
-	}
+	assert(a);
 	
 	if(isfinite(f)){
 		printf("%s", a);

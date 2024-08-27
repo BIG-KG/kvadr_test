@@ -2,11 +2,9 @@
 int aqqyu = 0;
 
 
-void enter_coeff(struct equ_coeff *curr_equl){
-    if (curr_equl == NULL){
-		printf("ERROR pointer curr_equl == NULL, in funk enter_coeff");
-		assert(curr_equl);
-	}
+void enter_coeff(struct equ_coeff * const curr_equl){
+	
+	assert(curr_equl);
 
     double *a = &(curr_equl->a),*b = &(curr_equl->b),
            *c = &(curr_equl->c); 
@@ -56,12 +54,9 @@ int check_r_int(){
 }
 
 
-double check_r_double(const char *print_str ){
+double check_r_double(const char * const print_str ){
 	
-	if (print_str == NULL){
-		printf("ERROR pointer print_str == NULL, in funk chech_r_double");
-		assert(print_str);
-	}
+	assert(print_str);
 	
     int right_enter = 1, try_counter = 0;
     double output = NAN;
