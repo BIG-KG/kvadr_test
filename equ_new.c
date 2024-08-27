@@ -32,8 +32,7 @@ int solve_sqrt(const equ_coeff curr_equ, answers_s * const curr_ans){
 	cdouble b = curr_equ.b;
 	cdouble c = curr_equ.c;	
 	
-    double D = 0;
-    D = (b * b) - (4 * a * c);
+    double D = (b * b) - (4 * a * c);
 
     if (!compar_double_with_zero(D) )
     {
@@ -45,6 +44,7 @@ int solve_sqrt(const equ_coeff curr_equ, answers_s * const curr_ans){
 	}
 
     D = sqrt(D);
+	
     (curr_ans->ans1) = (-b - D) / (2 * a);
     (curr_ans->ans2) = (-b + D) / (2 * a);
     return TWOs;

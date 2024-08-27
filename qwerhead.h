@@ -21,17 +21,17 @@ typedef const double cdouble;
 const double E = 0.000001;
 
 //!@brief constants denote number of solutions
-enum num_of_solu {
+enum num_of_solu{
   ZEROs = 0,
   ONEs = 1,
   TWOs = 2,
   INFs = -1,
 };
 
-void print_double_num(const char* a, cdouble f, int end);
+void print_double_with_capt(const char* a, cdouble f, int end);
 
 //!@brief make decision to program between making UNITtests and solving equals
-enum solution{
+enum do_test_choi{
     DO_TESTS = 1,
     SOLVING = 2,
 };
@@ -53,7 +53,7 @@ struct answers_s{
 };
 
 //!@brief struct in wich contain full info about equaluation to UNITtest
-struct equ{
+struct full_equl_struct {
     struct equ_coeff in_coeff;
     struct test_ans  in_ans;
 	struct answers_s curr_ans;
@@ -64,7 +64,7 @@ struct equ{
 @brief solve a * x**2 + b * x + c = 0
 	Solving a * x**2 + b * x + c. Ansvers vrites to variables with addresses double *ans1 and ans2.
 	Return int number of ansvers
-	
+
 @param double a coeff a
 @param double b coeff b
 @param double c coeff c
@@ -75,7 +75,7 @@ struct equ{
 
 @note in case of infitity sol return -1
 @note in case 1 sol return answer to ans1
-@note for the solution it calls either solve_linear or solve_sqrt depending on the equation 
+@note for the solution it calls either solve_linear or solve_sqrt depending on the equation
 @see solve_sqrt()
 @see solve_linear()
 
@@ -88,11 +88,11 @@ int sol_equ( const equ_coeff curr_equ, answers_s * const curr_ans);
 	Return int number of ansvers
 
 
-@param double a 
-@param double b 
-@param double c 
-@param double *ans1 
-@param double *ans2 
+@param double a
+@param double b
+@param double c
+@param double *ans1
+@param double *ans2
 
 @return Number of solutions
 
@@ -105,7 +105,7 @@ int solve_sqrt(const equ_coeff curr_equ, answers_s * const curr_ans);
 @brief solve b * x + c = 0 or special case 0 * x**2 + b * x + c = 0
 	Solving b * x + c. Ansvers vrites to variable with addresse double *ans1
 	Return int number of ansvers
-	
+
 @param double b coeff b
 @param double c coeff c
 @param double *ans1 pointer to first ans
@@ -119,28 +119,28 @@ int solve_linear(const equ_coeff curr_equ, answers_s * const curr_ans);
 /**
 @brief Check for right entering int number.
 	Checks if (int) number was entered right. If in enterng data has error giv 11 trys to enter again.
-	Returns int number wich was entered. 
-	
+	Returns int number wich was entered.
 
-@return int out 
+
+@return int out
 
 @note Go to ERROR if after 11 attempts nuber still not entered.
 @note  Works only with stdin.
 */
-int check_r_int();
+int check_enter_int();
 
 /**
 @brief Check for right entering double number.
 	Checks if (double) number was entered right. If in enterng data has error giv 11 trys to enter again.
-	Returns doube number wich was entered. 
-	
+	Returns doube number wich was entered.
 
-@return double out 
+
+@return double out
 
 @note Go to ERROR if after 11 attempts nuber still not entered.
 @note  Works only with stdin.
 */
-double check_r_double(const char * const printing_string);
+double check_enter_double(const char * const printing_string);
 
 
 
@@ -155,14 +155,14 @@ void enter_coeff(struct equ_coeff * const curr_equl);
 
 /**@brief Reads and returns double number. Before the introduction, the line located at the pointer C is written.  Use check_r_double.
 
-@param const char *c 
+@param const char *c
 	Pointer on start of string wich need to be printed before scanned number.
-	
+
 @return doube - entered number
 
 @note If entered wrong value give 10 attemptions
       If steel wrong, gives out error
-	  
+
 
 /**
 @brief Print ansvers(ans1, ans2) depending of number_of_sol
@@ -175,20 +175,20 @@ void enter_coeff(struct equ_coeff * const curr_equl);
 
 @note if number_of_sol == 1 gives out only ans1
 */
-void print_ans(const answers_s curr_ans);
+void print_equation_ans(const answers_s curr_ans);
 
 /**
 @brief Doing all unit-tests. Using do_test
 
 
-@see do_test 
+@see do_test
 */
 void do_all_tests();
 
 /**
 @brief compares a (double)num with zero.
 
-@param double num 
+@param double num
 
 @return int
 	if number equals zero return 1, 0 otherwise.
@@ -210,7 +210,6 @@ int compar_double_with_zero(cdouble num);
 
 @see E
 */
-int ct_double(cdouble , cdouble);
 
 /**@brief Substitutes parameters passed by (struct equ *)curr_test into solve_equ and compares with answers received from (struct equ *)curr_test.
 	Using sol_equ, print_test_result.
@@ -221,8 +220,8 @@ int ct_double(cdouble , cdouble);
 @see sol_equ() print_test_result()
 
 **/
-void do_test(struct equ * const curr_test, const int n);
+void do_test(struct full_equl_struct * const curr_test, const int n);
 
-void print_test_result(_Bool flag, const equ * const curr_test, const int n);
+void print_test_result(bool right_test, const full_equl_struct * const curr_test, const int n);
 
 #endif
