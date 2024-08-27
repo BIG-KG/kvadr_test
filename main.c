@@ -2,7 +2,7 @@
 
 int main(){
 
-    printf("HI, its me, Mario! with obnowa nomer 10\nEnter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
+    printf("HI, its me, Mario! with obnowa number 10\nEnter 1 = doing tests, 2 = solve equaluation, any other nuber = EXIT\n");
     int test_or_sol = check_r_int();
 
     while(test_or_sol == DO_TESTS || test_or_sol == SOLVING){
@@ -57,7 +57,6 @@ void print_ans(const answers_s curr_ans){
 int compar_double_with_zero(double num){
 	
     assert(isfinite(num));
-	//return(num != 0);
     return (fabs(num) > E);
 	
 }
@@ -65,14 +64,15 @@ int compar_double_with_zero(double num){
 int ct_double(double num1, double num2){
 	
     assert(isfinite(num1) && isfinite(num2));
-	//return (num1 == num2);
     return (fabs(num1 - num2) < E);
 	
 }
 
 void do_test(struct equ *curr_test, const int n){	
-    assert(curr_test != NULL);
-
+	if (curr_test == NULL){
+		printf("ERROR pointer curr_test == NULL, in funk do_test");
+		assert(curr_test);
+	}
     cdouble r_ans1 = (curr_test->in_ans).r_ans1;
     cdouble r_ans2 = (curr_test->in_ans).r_ans2;
     const int r_num_of_sol = (curr_test->in_ans).r_num_of_sol;
@@ -109,14 +109,11 @@ void do_test(struct equ *curr_test, const int n){
 
 void print_test_result(_Bool flag, const equ *curr_test, const int n){
     
-	cdouble r_ans1 = curr_test->in_ans.r_ans1;
-    cdouble r_ans2 = curr_test->in_ans.r_ans2;
-    const int r_num_of_sol = curr_test->in_ans.r_num_of_sol;
+	if (curr_test == NULL){
+		printf("ERROR pointer curr_test == NULL, in funk print_test_result");
+		assert(curr_test);
+	}
 	
-	cdouble ans1 = curr_test->curr_ans.ans1;
-    cdouble ans2 = curr_test->curr_ans.ans2;
-	const int num_of_sol = curr_test->curr_ans.num_of_sol;
-
     HANDLE h  = GetStdHandle(STD_OUTPUT_HANDLE);
 
     if (flag == false){
@@ -124,12 +121,12 @@ void print_test_result(_Bool flag, const equ *curr_test, const int n){
 		
         printf("ERROR test %d failed\n\n\n", n);
         printf("right number of sol = %d "
-               " given number of sol = %d\n", r_num_of_sol, num_of_sol);
+               " given number of sol = %d\n", curr_test->in_ans.r_num_of_sol, curr_test->curr_ans.num_of_sol);
 
-		print_double_num("right ans1 = ", r_ans1, 0);
-		print_double_num("right ans2 = ", r_ans2, 1);
-		print_double_num("given ans1 = ", ans1,   0);
-		print_double_num("given ans2 = ", ans2,   1);
+		print_double_num("right ans1 = ", curr_test->in_ans.r_ans1, 0);
+		print_double_num("right ans2 = ", curr_test->in_ans.r_ans2, 1);
+		print_double_num("given ans1 = ", curr_test->curr_ans.ans1,   0);
+		print_double_num("given ans2 = ", curr_test->curr_ans.ans2,   1);
 
         SetConsoleTextAttribute(h, 0x07);
         }
@@ -140,13 +137,6 @@ void print_test_result(_Bool flag, const equ *curr_test, const int n){
         SetConsoleTextAttribute(h, 0x07);
     }
 
-}
-
-double enter_one_coeff(const char *c){
-	
-    assert(c != NULL);
-    return check_r_double(c);
-	
 }
 
 void do_all_tests(){
@@ -162,7 +152,7 @@ void do_all_tests(){
 	{2.581, 0,    -16.6,   -2.536063,    2.536063,   2},
 	{2,     581,   4,      -290.493115, -0.00688484, 2},
 	{2,     581,   4,      -290.493115, -0.00678484, 2}};
-
+	
     int num_of_tests_main = sizeof(tests) / sizeof(struct equ);
 
     for(int i = 0; i < num_of_tests_main; i++){
@@ -172,6 +162,11 @@ void do_all_tests(){
 }
 
 void print_double_num(const char* a, cdouble f, int end){
+	
+	if (a == NULL){
+		printf("ERROR pointer a == NULL, in funk print_double_num");
+		assert(a);
+	}
 	
 	if(isfinite(f)){
 		printf("%s", a);

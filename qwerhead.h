@@ -18,7 +18,7 @@ typedef const double cdouble;
 
 
 //!@brief minimum difference between double numbers in wich they are taken as equal
-const double E = 0.0000001;
+const double E = 0.000001;
 
 //!@brief constants denote number of solutions
 enum num_of_solu {
@@ -163,10 +163,6 @@ void enter_coeff(struct equ_coeff *curr_equl);
 @note If entered wrong value give 10 attemptions
       If steel wrong, gives out error
 	  
-@see check_r_double	  
-	
-*/
-double enter_one_coeff(const char *c);
 
 /**
 @brief Print ansvers(ans1, ans2) depending of number_of_sol

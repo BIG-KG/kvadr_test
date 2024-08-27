@@ -1,6 +1,11 @@
 #include "qwerhead.h"
 
 int solve_linear(const equ_coeff curr_equ, answers_s *curr_ans){
+	if (curr_ans == NULL){
+		printf("ERROR pointer curr_ans == NULL, in funk solve_linear");
+		assert(curr_ans);
+	}
+	
 	
 	cdouble b = curr_equ.b;
 	cdouble c = curr_equ.c;
@@ -24,11 +29,14 @@ int solve_linear(const equ_coeff curr_equ, answers_s *curr_ans){
 
 int solve_sqrt(const equ_coeff curr_equ, answers_s *curr_ans){
 	
+	if (curr_ans == NULL){
+		printf("ERROR pointer curr_ans == NULL, in funk solve_sqrt");
+		assert(curr_ans);
+	}	
+	
 	cdouble a = curr_equ.a;
 	cdouble b = curr_equ.b;
-	cdouble c = curr_equ.c;
-	
-	
+	cdouble c = curr_equ.c;	
 	
     double D = 0;
     D = (b * b) - (4 * a * c);
@@ -49,6 +57,11 @@ int solve_sqrt(const equ_coeff curr_equ, answers_s *curr_ans){
 }
 
 int sol_equ( const equ_coeff curr_equ, answers_s *curr_ans){
+
+	if (curr_ans == NULL){
+		printf("ERROR pointer curr_ans == NULL, in funk sol_equ");
+		assert(curr_ans);
+	}
 
     if(!compar_double_with_zero(curr_equ.a))
     {			

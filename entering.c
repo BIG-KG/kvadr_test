@@ -5,11 +5,11 @@ int aqqyu = 0;
 void enter_coeff(struct equ_coeff *curr_equl){
     if (curr_equl == NULL){
 		printf("ERROR pointer curr_equl == NULL, in funk enter_coeff");
-		return;
+		assert(curr_equl);
 	}
 
     double *a = &(curr_equl->a),*b = &(curr_equl->b),
-           *c = &(curr_equl->c); // 3 
+           *c = &(curr_equl->c); 
 
     *a = NAN;
     *b = NAN;
@@ -19,9 +19,9 @@ void enter_coeff(struct equ_coeff *curr_equl){
     int try_count = 11; // const
     int drop =0;
     printf("a * x**2 + b*x + c = 0\nEnter coefficents\n");
-    *a = enter_one_coeff("a = ");
-    *b = enter_one_coeff("b = ");
-    *c = enter_one_coeff("c = ");
+    *a = check_r_double("a = ");
+    *b = check_r_double("b = ");
+    *c = check_r_double("c = ");
 
     assert (isfinite (*a));
     assert (isfinite (*b));
@@ -57,9 +57,16 @@ int check_r_int(){
 
 
 double check_r_double(const char *print_str ){
+	
+	if (print_str == NULL){
+		printf("ERROR pointer print_str == NULL, in funk chech_r_double");
+		assert(print_str);
+	}
+	
     int right_enter = 1, try_counter = 0;
     double output = NAN;
 	int drop = 0;
+	
     do{	
 		drop = 0;
         if (right_enter != 1){
