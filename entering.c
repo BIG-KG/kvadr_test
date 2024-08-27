@@ -1,11 +1,15 @@
 #include "qwerhead.h"
+int aqqyu = 0;
 
 
 void enter_coeff(struct equ_coeff *curr_equl){
-    assert(curr_equl);
+    if (curr_equl == NULL){
+		printf("ERROR pointer curr_equl == NULL, in funk enter_coeff");
+		return;
+	}
 
     double *a = &(curr_equl->a),*b = &(curr_equl->b),
-           *c = &(curr_equl->c); // 3 строки
+           *c = &(curr_equl->c); // 3 
 
     *a = NAN;
     *b = NAN;
@@ -25,41 +29,61 @@ void enter_coeff(struct equ_coeff *curr_equl){
 }
 
 int check_r_int(){
-    int right_enter = 1, try_counter = 0;
-    int output = INT_NAN;
-    do{
-        if (right_enter == 0){
+	int right_enter = 1, try_counter = 0;
+    int output = NAN;
+	int drop = 0;
+    do{	
+		drop = 0;
+        if (right_enter != 1){
             printf("ERROR try again\n");
-            // нужен другой цикл,
-            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
-            ;
-        }
-
-       right_enter = scanf("%d%*c", &output);
-
-    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
-
-    assert(output != INT_NAN);//В MIAN IFом
-
-    return output;
-}
-
-
-double check_r_double(){
-    int right_enter = 1, try_counter = 0;
-    double output = INT_NAN;
-    do{
-        if (right_enter == 0){
-            printf("ERROR try again\n");
-            // в функцию
-            for(int drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
+			
+            for(drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
             ;}
+		
+		right_enter = scanf("%d%c", &output, &drop);
+		
+		 if(drop != '\n'){
+			printf("\nYOU CAN ENTER ONLY NUMBERS\n");
+			right_enter = 0;
+		 }
+		
+		
+		try_counter ++;
+    }while((right_enter == 0 || drop != '\n') && try_counter < MAX_TRY_COUNT);
 
-       right_enter = scanf("%lg%*c", &output);
-
-    }while(right_enter == 0 && try_counter < MAX_TRY_COUNT);
-
-    assert(output != INT_NAN);//В MIAN IFом
+    
     return output;
 }
 
+
+double check_r_double(const char *print_str ){
+    int right_enter = 1, try_counter = 0;
+    double output = NAN;
+	int drop = 0;
+    do{	
+		drop = 0;
+        if (right_enter != 1){
+            printf("ERROR try again\n");
+			
+            for(drop = 0; (drop = getchar()) != '\n' && drop != EOF;)
+            ;}
+		
+		printf("%s", print_str);
+		right_enter = scanf("%lg%c", &output, &drop);
+		
+		 if(!isfinite(output)){
+			printf("\nYOU CAN ENTER ONLY FINITE NUMBERS ");
+			 right_enter = 0;
+		 }
+		 if(drop != '\n'){
+			 printf("\nYOU CAN ENTER ONLY NUMBERS\n");
+			 right_enter = 0;
+		 }
+		
+		
+		try_counter ++;
+    }while((right_enter == 0 || drop != '\n') && try_counter < MAX_TRY_COUNT);
+
+    
+    return output;
+}
